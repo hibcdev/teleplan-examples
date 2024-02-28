@@ -1,0 +1,157 @@
+<html>
+<head>
+	<title>Teleplan Web Service - Introduction</title>
+	<style type="text/css">
+		input {text-align: center}
+		div.body {margin:10; font: 15px tahoma,sans-serif;}
+		div.text {margin-top:20; margin-bottom:0; width:800; text-align: justify}
+		table.form td {text-align: right; font: 13px system;}
+		table.page {width:800; font: 10px}
+		td.prev {text-align: left; font: small}
+		td.next {text-align:right; font: small}
+		div.html {margin:0; padding:0; width:800}
+		div.form {margin:20; width:800}
+		form {margin:0; padding:0;}
+		div.code {margin:0; padding:20; width:760; background:lightgray;}
+	</style>
+</head>
+
+<body>
+<table class="page">
+<tr><td class="prev"><a href="3-submit.html">&lt;&lt; Previous Page</a><br>Sending Files</td>
+<td class="next"><a href="5-eligible.html">Next Page &gt;&gt;</a><br>Check Eligiblility</td></tr>
+</table>
+
+<div class="body">
+	<h2>Teleplan Web Service</h2>
+	<h3>Retrieving Data Files (getAsciiFile, AgetRemit)</h3>
+
+	<div class="text">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<b>ASignOn</b><br>
+				Teleplan web service sessions are stateful and  must always start with a
+				sucessful <code>AsignOn</code>	call.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOn">
+			<table class="form">
+				<tr><td>Username</td><td><input type="text" name="username"></td></tr>
+				<tr><td>Password</td><td><input type="password" name="password" ></td></tr>
+			</table>
+			<input type="submit" value="Click here to Start a Session"/><br>
+		</form>
+	</div>
+
+
+	<div class="text">
+		<b>AgetAscii</b><br>
+			The <code>AgetAscii</code> method retrieves informational data files.  This method
+			requires a single  parameter: <code>filechar</code>.  Here is the example html code
+			for <code>AgetAscii</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AgetAscii"</b>&gt;<br>
+			&nbsp;&nbsp;File Type &lt;input type="text" <b>name="filechar" value="0"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to Retrieve the File"/&gt;<br>
+		&lt;/form&gt;		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AgetAscii">
+			<table class="form">
+			<tr><td>File Type</td><td> <input type="text" name="filechar" value="0"></td></tr>
+			</table>
+			<input type="submit" value="Click here to Retrieve the File"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Press the Submit button above. You should see something like this in	your browser:
+	</div>
+	<div class="code">
+	<code>
+	0 Update This List Teleplan Services Selection OPLIST.SRV 1 MSP Explanatory Codes List
+		2 MSP ICD9 Codes (3 char) 3 MSP Fee Schedule Costs 9 MSP Technical Use Only
+		A Adjustment Codes D Diagnostic Facilities listing I MSP ICD9 Codes (4&amp;3 some 5)
+		R Rural Retention Premium Codes V VENDORS TEST SELECTION ONLY Joint MSP/Vendors/MSVA TESTS ONLY
+		? Available Services Description NOV 02, 2005 #TID=000;Result=SUCCESS;Filename=TPBULET-0.txt;Msgs=;
+	</code>
+	</div>
+	<div class="text">
+		If you get <code>Result=SUCCESS</code> you have retrieved the file sucessfully. The data
+		is returned as a plain-text file.  Even	though the output may display differently in
+		the browser you can select "display source" in your browser to see exactly what has been returned.
+	</div>
+
+
+	<div class="text">
+	<b>AgetRemit</b><br>
+		The <code>AgetRemit</code> method retrieves the current data file. This method requires a
+		single true/false parameter: <code>remittance</code>.  Here is the example html code
+		for <code>AgetRemit</code> :
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AgetRemit"</b>&gt;<br>
+			&nbsp;&nbsp;Include Remittances &lt;input type="checkbox" <b>name="remittance" </b> value="false"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to Retrieve the Data File"/&gt;<br>
+		&lt;/form&gt;
+		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AgetRemit">
+			<table class="form">
+			<tr><td><input type="checkbox" name="remittance" value="true"></td><td>
+			Include Remittances </td></tr>
+			</table>
+			<input type="submit" value="Click here to Retrieve the Data File"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Press the Submit button above. You should see something like this in	your browser:
+	</div>
+	<div class="code">
+	<code>
+		M01M12380000THE NEXT CLOSE-OFF FOR PAYMENT IS OCTOBER 4, 2011 AT 7:00 P.M.
+		M01M12380000ALL TELEPLAN SERVICES WILL BE UNAVAILABLE DURING THE REGULARLY
+		SCHEDULED APPLICATION MAINTENANCE CHANGE WINDOW ON THURSDAY, SEPTEMBER 29TH,
+		2011 FROM APPROXIMATELY 12:01 AM TO 6:00 AM. WE APOLOGIZE FOR ANY INCONVENIENCE
+		THIS MAY CAUSE. VTCM12382011-09-27 22:04:25
+		S0000000C0000000B0000000M0000002X0000000V0000001 0000000 0000000 0000000 0000000
+		000000000000003 #TID=009;Result=SUCCESS;Filename=remit220426.txt;Msgs=;
+	</code>
+	</div>
+	<div class="text">
+		If you get <code>Result=SUCCESS</code> you have retrieved the file sucessfully. The data
+		is returned as a plain-text file.  Even	though the output may display differently in
+		the browser you can "display source" in your browser to see exactly what has been returned.
+	</div>
+
+	<div class="text">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+		<b>AsignOff</b><br>
+			Always end a Teleplan Web Service session with the <code>AsignOff</code> method.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOff"><br>
+			<input type="submit" value="Click here to End your Session "/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		As always, once you sign out you	can not perform any further operations until you sign in again.
+	</div>
+</div>
+
+<table class="page">
+<tr><td class="prev"><a href="3-submit.html">&lt;&lt; Previous Page</a><br>Sending Files</td>
+<td class="next"><a href="5-eligible.html">Next Page &gt;&gt;</a><br>Check Eligiblility</td></tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<html>
+<head>
+	<title>Teleplan Web Service - Introduction</title>
+	<style type="text/css">
+		input {text-align: center}
+		div.date input { width:40}
+		div.body {margin:10; font: 15px tahoma,sans-serif;}
+		div.text {margin-top:20; margin-bottom:0; width:800; text-align: justify}
+		table.form td {text-align: left; font: 13px system;}
+		table.form th {text-align: right; font: 13px system;}
+		table.page {width:800; font: 10px}
+		td.prev {text-align: left; font: small}
+		td.next {text-align:right; font: small}
+		div.html {margin:0; padding:0; width:800}
+		div.form {margin:20; width:800}
+		form {margin:0; padding:0;}
+		div.code {margin:0; padding:20; width:760; background:lightgray;}
+	</style>
+</head>
+
+<body>
+<table class="page">
+<tr><td class="prev"><a href=4-pickup.html>&lt;&lt; Previous Page</a><br>Retrieving Data Files</td>
+<td></td></tr>
+</table>
+
+<div class="body">
+	<h2>Teleplan Web Service</h2>
+	<h3>Check Eligiblility (AcheckE45)</h3>
+
+	<div class="text">
+			<!-- <form method="POST" action="https://teleplan.hnet.bc.ca/TeleplanBroker"> -->
+			<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker">
+				<br><b>ASignOn</b><br>
+				Teleplan web service sessions are stateful and  must always start with a
+				sucessful <code>AsignOn</code>	call.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOn">
+			<table class="form">
+				<tr><td>Username</td><td><input type="text" name="username"></td></tr>
+				<tr><td>Password</td><td><input type="password" name="password" ></td></tr>
+			</table>			<input type="submit" value="Click here to Start a Session"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+
+		<b>AcheckE45</b><br>
+			The <code>AcheckE45</code> method checks coverage for a speficied patient a submission data file.
+			This method requires several parameters as shown below.	 Requesting optional information
+			will slow down your requests and increase the likelihood of rejected requests or timeouts.
+			Here is the example html code
+			for <code>AcheckE45</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+				&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AcheckE45"</b>&gt;<br>
+				&nbsp;&nbsp;PHN Number <br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="PHN"</b><br>
+				&nbsp;&nbsp;Birth Date (YYYY MM DD)<br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="dateOfBirthyyyy"</b>&gt;<br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="dateOfBirthmm"</b>&gt;<br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="dateOfBirthdd"</b><br>
+				&nbsp;&nbsp;Service Date (YYYY MM DD)<br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="dateOfServiceyyyy"</b>&gt;<br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="dateOfServicemm"</b>&gt;<br>
+				&nbsp;&nbsp;&lt;input type="text" <b>name="dateOfServicedd"</b> (optional)<br>
+				&nbsp;&nbsp;&lt;input type="checkbox" <b>name="PatientVisitCharge"</b> value="true"<br>
+				&nbsp;&nbsp;Subsidy Insured Service (optional)<br>
+				&nbsp;&nbsp;&lt;input type="checkbox" <b>name="LastEyeExam"</b> value="true"<br>
+				&nbsp;&nbsp;Last Eye Exam (optional)<br>
+				&nbsp;&nbsp;&lt;input type="checkbox" <b>name="PatientRestriction"</b> value="true"<br>
+				&nbsp;&nbsp;Paatient Restriction (optional)<br>
+				&nbsp;&nbsp;&lt;input type="submit" value="Click here to check"/&gt;<br>
+		&lt;/form&gt;<br>
+	</code>
+	</div>
+
+	<div class="html">
+		<!-- <form method="POST" action="https://teleplan.hnet.bc.ca/TeleplanBroker"> -->
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker">
+			<input type="hidden" name="ExternalAction" value="AcheckE45">
+			<table class="form">
+			<tr><th>PHN Number</th><td>
+			<input type="text" name="PHN" value="9151065434"></td></tr>
+				<tr><th>Birth Date</th><td>
+				<div class="date">
+				<input type="text" name="dateOfBirthyyyy" value="1959">
+				<input type="text" name="dateOfBirthmm" value="12">
+				<input type="text" name="dateOfBirthdd" value="23"> (required)
+				</div></td><td>
+				<tr><th>Service Date (YYYY MM DD)</th><td>
+				<div class="date">
+				<input type="text" name="dateOfServiceyyyy">
+				<input type="text" name="dateOfServicemm">
+				<input type="text" name="dateOfServicedd"> (optional)
+				</div></td></tr>
+			<tr>
+			<th>Subsidy Insured Service</th>
+			<td><input type="checkbox" checked="checked" name="PatientVisitCharge" value="true"> (optional)</td>
+			</tr><tr>
+			<th>Last Eye Exam</th>
+			<td><input type="checkbox" checked="checked" name="LastEyeExam" value="true"> (optional)</td>
+			</tr><tr>
+			<th>Patient Restriction</th>
+			<td><input type="checkbox" checked="checked" name="PatientRestriction" value="true"> (optional)</td>
+			<tr><th><input type="submit" value="Click here to check"/></th></tr>
+			</table>
+		</form>
+	</div>
+
+	<div class="text">
+		For  a sucessful check, this is the result:
+	</div>
+	<div class="code">
+	<code>
+		PHN: 9151065434 NAME: BURROWS CHRISTINE JOSEPHINE BIRTHDATE: 19591223 GENDER: FEMALE DOS: 20110929
+		ELIG_ON_DOS: YES COVERAGE_END_DT: COVERAGE_END_REASON: PATIENT_VISIT_CHARGE:
+		THIS IS NOT AN INSURED BENEFIT DATE_OF_LAST_EYE_EXAM: 1999-05-01
+		PATIENT_RESTRICTION: SEE MSP BULLETIN RESPONSE: MESSAGE: PLEASE ENSURE YOU CONFIRM THE IDENTITY OF
+		THE PERSON PRESENTING THE CARD #TID=001;Result=SUCCESS;Filename=e45.txt;Msgs=HJMB001I SUCCESSFULLY COMPLETED;
+	</code>
+	</div>
+		<div class="text">
+		If you get <code>Result=SUCCESS</code> you have retrieved the data sucessfully. The data
+		is returned as a plain-text file.  Even	though the output may display differently in
+		the browser you can select "display source" in your browser to see exactly what has been returned.
+	</div>
+
+	<div class="text">
+		If you are using the vendor test site but do not use one of the test PHN's you will
+		receive this message:
+	</div>
+	<div class="code">
+	<code>
+		#TID=007;Result=FAILURE;Filename=;Msgs=HNHR512E - CLIENT DOES NOT EXIST ON REGISTRY;
+	</code>
+	</div>
+
+	<div class="text">
+		The eligiblity system is extremely busy and automated calls to this method
+		should be restricted.  During peak eligibility loads you may receive this error:
+	</div>
+	<div class="code">
+	<code>
+		#TID=004;Result=FAILURE;Filename=;Msgs=SYSTEM SERVICE TIMEOUT;
+	</code>
+	</div>
+
+	<div class="text">
+		<!-- 	<form method="POST" action="https://teleplan.hnet.bc.ca/TeleplanBroker"> -->
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker">
+		<br><b>AsignOff</b><br>
+			Always end a Teleplan Web Service session with the <code>AsignOff</code> method.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOff">
+			<input type="submit" value="Click here to End your Session "/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		As always, once you sign out you	can not perform any further operations until you sign in again.
+	</div>
+</div>
+
+<table class="page">
+<tr><td class="prev"><a href=4-pickup.html>&lt;&lt; Previous Page</a><br>Retrieving Data Files</td>
+<td></td></tr>
+</table>
+
+</body>
+</html>

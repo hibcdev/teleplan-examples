@@ -1,0 +1,174 @@
+<html>
+<head>
+	<title>Teleplan Web Service - Introduction</title>
+	<style type="text/css">
+		input {text-align: center}
+		div.body {margin:10; font: 15px tahoma,sans-serif;}
+		div.text {margin-top:20; margin-bottom:0; width:800; text-align: justify}
+		table.form td {text-align: right; font: 13px system;}
+		table.page {width:800; font: 10px}
+		td.prev {text-align: left; font: small}
+		td.next {text-align:right; font: small}
+		div.html {margin:0; padding:0; width:800}
+		div.form {margin:20; width:800}
+		form {margin:0; padding:0;}
+		div.code {margin:0; padding:20; width:760; background:lightgray;}
+	</style>
+</head>
+
+<body>
+<table class="page">
+<tr><td class="prev"><a href="2-logs.html">&lt;&lt; Previous Page</a><br>Retrieving Log Files</td>
+<td class="next"><a href="4-pickup.html">Next Page &gt;&gt;</a><br>Retrieving Data Files</td></tr>
+</table>
+
+<div class="body">
+	<h2>Teleplan Web Service</h2>
+	<h3>Sending Files (AputRemit, AputAscii)</h3>
+
+	<div class="text">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<b>ASignOn</b><br>
+				Teleplan web service sessions are stateful and  must always start with a
+				sucessful <code>AsignOn</code>	call.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOn">
+			<table class="form">
+				<tr><td>Username</td><td><input type="text" name="username"></td></tr>
+				<tr><td>Password</td><td><input type="password" name="password" ></td></tr>
+			</table>
+			<input type="submit" value="Click here to Start a Session"/><br>
+		</form>
+	</div>
+
+
+	<div class="text">
+		<b>AputRemit</b><br>
+			The <code>AputRemit</code> method sends a submission data file.  This method requires a MultiPart
+			encoded message and a single parameter: 'submitFile'.  Here is the example html code
+			for <code>AputRemit</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"
+			&nbsp;&nbsp;<b>enctype="multipart/form-data"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AputRemit"</b>&gt;<br>
+			&nbsp;&nbsp;Filename &lt;input <b>type="file" name="submitFile"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to upload"/&gt;<br>
+		&lt;/form&gt;		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"
+			enctype="multipart/form-data" ><br>
+			<input type="hidden" name="ExternalAction" value="AputRemit">
+			<table class="form">
+			<tr><td>Filename</td><td><input type="file" name="submitFile" value="0"><br></td></tr>
+			</table>
+			<input type="submit" value="Click here to upload"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Select a submission file and press the Submit button above.  For  a sucessful upload,
+		this is the result:
+	</div>
+	<div class="code">
+	<code>
+		#TID=005;Result=SUCCESS;Filename=;Msgs=;
+	</code>
+	</div>
+		<div class="text">
+		In the event there is a problem with the content of file you may see
+		one of a number of different messages.  For example, if a file is send where the
+		data center number in the file does not match the data center that is signed on,
+		this is the result:
+	</div>
+	<div class="code">
+		<code>
+			#TID=000;Result=FAILURE;Filename=;Msgs=TETA-020
+			DATA CENTRE VALUE IN FILE DOES NOT MATCH, SEE RECORD AT # 00001;
+		</code>
+	</div>
+	<div class="text">
+	 	The purpose of this tutorial is not to explain the content of a submission file.
+	 	In both the the examples above the files were received sucessfully from a programming
+	 	perspective. If the file is accepted a <code>Result=SUCCESS</code> status is returned.
+	 	If the content of the file has a problem a <code>Result=FAILURE</code> status is
+		returned.  Further details about the failure can be determined by downloading the
+		current log file using  <code>AgetLog</code>
+	</div>
+
+	<div class="text">
+		<b>multipart/form-data</b><br>
+		By far the most common programming error in uploading submission files is neglecting to
+		encode the request as multipart/form-data. The details of this format are beyond the
+		scope of this document but well known to most experienced web developers.	If you forget
+		to encode the data as multipart you will receive the following error:
+	</div>
+	<div class="code">
+		<code>
+			#TID=001;Result=FAILURE;Filename=;Msgs=No parser object (contact Teleplan Help Desk);
+		</code>
+	</div>
+
+
+	<div class="text">
+		<b>AputAscii</b><br>
+			The <code>AputAscii</code> method sends a test submission data file to Teleplan Technical Support.
+			This method requires a MultiPart encoded message and a single parameter: <code>submitASCII</code>.
+			Here is the example html code	for <code>AputAscii</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"
+			&nbsp;&nbsp;<b>enctype="multipart/form-data"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AputAscii"</b>&gt;<br>
+			&nbsp;&nbsp;Filename &lt;input <b>type="file" name="submitASCII"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to upload"/&gt;<br>
+		&lt;/form&gt;		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"
+			enctype="multipart/form-data" ><br>
+			<input type="hidden" name="ExternalAction" value="AputAscii">
+			<table class="form">
+			<tr><td>Filename</td><td><input type="file" name="submitFile" value="0"><br></td></tr>
+			</table>
+			<input type="submit" value="Click here to upload"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Sekect a submission file and press the Submit button above.  For  a sucessful upload,
+		this is the result:
+	</div>
+	<div class="code">
+	<code>
+		#TID=005;Result=SUCCESS;Filename=;Msgs=;
+	</code>
+	</div>
+
+	<div class="text">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+		<b>AsignOff</b><br>
+			Always end a Teleplan Web Service session with the <code>AsignOff</code> method.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOff">
+			<input type="submit" value="Click here to End your Session "/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		As always, once you sign out you	can not perform any further operations until you sign in again.
+	</div>
+</div>
+
+<table class="page">
+<tr><td class="prev"><a href="2-logs.html">&lt;&lt; Previous Page</a><br>Retrieving Log Files</td>
+<td class="next"><a href="4-pickup.html">Next Page &gt;&gt;</a><br>Retrieving Data Files</td></tr>
+</table>
+
+</body>
+</html>

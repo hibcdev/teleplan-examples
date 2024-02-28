@@ -1,0 +1,198 @@
+<html>
+<head>
+	<title>Teleplan Web Service - Introduction</title>
+	<style type="text/css">
+		input {text-align: center}
+		div.body {margin:10; font: 15px tahoma,sans-serif;}
+		div.text {margin-top:20; margin-bottom:0; width:800; text-align: justify}
+		table.form td {text-align: right; font: 13px system;}
+		table.page {width:800; font: 10px}
+		td.prev {text-align: left; font: small}
+		td.next {text-align:right; font: small}
+		div.html {margin:0; padding:0; width:800}
+		div.form {margin:20; width:800}
+		form {margin:0; padding:0;}
+		div.code {margin:0; padding:20; width:760; background:lightgray;}
+	</style>
+</head>
+
+<body>
+<table class="page">
+<tr><td></td>
+<td class="next"><a href=2-logs.html>Next Page &gt;&gt;</a><br>Retrieving Log Files</td></tr>
+</table>
+
+<div class="body">
+	<h2>Teleplan Web Service</h2>
+	<h3>Introduction (ASignOn, AchangePW, ASignOff)</h3>
+
+	<div class="text">
+		<b>Introduction</b><br>
+		Teleplan Web Service methods are HTTP 'POST' requests.  In these tutorial pages we will demonstrate the use of these requests using HTML forms.	This html code is not intended to be used for production. In real life your application would perform the requests programatically using a production language such as NodeJS, Java, C#, etc.
+	</div>
+
+	<div class="text">
+		<b>Session Cookies</b><br>
+		A common source of Teleplan programming error is the handling of session cookies.  When you	establish a session with the Teleplan web service using the "ASignOn" request a session	cookie is returned to you in the response. This cookie must be send back by the clientin all subsequent service	requests.  Without a valid session cookie all	Teleplan service
+		requests will fail.
+	</div>
+
+	<div class="text">
+		Each of the following example pages has an <code>AsignOn</code> and <code>AsignOff</code> form for convenience but you do not need to sign on and sign off on each page separately.  You can navigate between pages and execute different functions and as long as the session cookie is
+		preserved by your browser you will maintain your session.  You should always sign off at the end of a session for security.
+	</div>
+
+	<div class="text">
+		<b>ExternalAction Parameter</b><br>
+		 Each request must provide an "ExternalAction" parameter as well as any other paremeters specific to each service method. For the examples in this test page the "ExternalAction" parameter is included as a hidden input field in each form.
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+		&nbsp;&nbsp;&lt;input type="hidden" name=<b>"ExternalAction"</b> value="AsignOn"&gt;<br>
+		&nbsp;&nbsp;...<br>
+		&lt;/form&gt;<br>
+	</code>
+	</div>
+
+	<!--  -->
+	<div class="text">
+	<b>AsignOn</b><br>
+		Teleplan web service sessions are stateful and  must always start with a
+		sucessful <code>AsignOn</code>	call. In addition to the mandatory <code>ExternalAction</code> parameter, this method requires two parameters: <code>username</code> &amp; <code>password</code>.  Here is the	example html code for <code>AsignOn</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AsignOn"</b>&gt;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;username &lt;input type="text" <b>name="username" value="myUsername"</b>&gt;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;password &lt;input type="password" <b>name="password" value="myPassword"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to Start a Session"/&gt;<br>
+		&lt;/form&gt;
+		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AsignOn">
+			<table class="form">
+				<tr><td>Username</td><td><input type="text" name="username"></td></tr>
+				<tr><td>Password</td><td><input type="password" name="password" ></td></tr>
+			</table>
+			<input type="submit" value="Click here to Start a Session"/>
+			then press 'Back'<br>
+		</form>
+	</div>
+
+	<div class="text">
+		Submit the above form using your own username &amp; password.  If successful, You will
+		see something like this in your browser:
+	</div>
+	<div class="code">
+	<code>
+	#TID=null;Result=SUCCESS;Filename=;Msgs=;
+	</code>
+	</div>
+	<div class="text">
+		The important part of the <code>AsignOn</code> return is: <code>Result=SUCCESS</code>.  If you get that,
+		you have signed in sucessfully.  After you get this result, press the "Back" button on your
+		browser to return to this page.
+	</div>
+	<div class="text">
+		Why press the Back Button after each request?  Because once you have submitted
+		a form from one of these example pages, your browser will replace the contents of
+		the page with whatever output is received from the web service, which is usually just
+		plain text. In order to	return to the form you will have to press "back" on your browser
+		to return to this page.
+	</div>
+
+		<!--  -->
+	<div class="text">
+	<b>AchangePW</b><br>
+		The <code>AchangePW</code> method changes the password for any user.  In addition to the mandatory
+		<code>ExternalAction</code>	parameter, this method requires four  parameters: <code>username,
+		password, new.password, confirm.password</code>.  Here is the	example html code for <code>AchangePW</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AsignOn"</b>&gt;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;username &lt;input type="text" <b>name="username" value="myUsername"</b>&gt;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;password &lt;input type="password" <b>name="password" value="myPassword"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to Start a Session"/&gt;<br>
+		&lt;/form&gt;
+		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AchangePW">
+			<table class="form">
+				<tr><td>Username</td><td><input type="text" name="username"></td></tr>
+				<tr><td>Old password</td><td><input type="password" name="password" ></td></tr>
+				<tr><td>New password</td><td><input type="password" name="new.password" ></td></tr>
+				<tr><td>New password</td><td><input type="password" name="confirm.password"></td></tr>
+			</table>
+			<input type="submit" value="Click here to change password"/>	(then press 'Back')<br>
+		</form>
+	</div>
+
+	<div class="text">
+		If successful, You will	see something like this in your browser:
+	</div>
+	<div class="code">
+	<code>
+	#TID=null;Result=SUCCESS;Filename=;Msgs=;
+	</code>
+	</div>
+
+	<!--  -->
+	<div class="text">
+	<b>AsignOff</b><br>
+		Always end a Teleplan Web Service session with the <code>AsignOff</code> method.
+		This method requires no parameters, other than <code>ExternalAction</code>.
+		Here is the example html code for <code>AsignOff</code>:
+	</div>
+
+		<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AsignOff"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to End your Session"/&gt;<br>
+		&lt;/form&gt;
+		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AsignOff">
+			<input type="submit" value="Click here to End your Session"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Submit the above form.  You should see something like this in	your browser:
+	</div>
+	<div class="code">
+	<code>
+	#TID=000;Result=SUCCESS;Filename=;Msgs=;
+	</code>
+	</div>
+	<div class="text">
+		If you get <code>Result=SUCCESS</code> you have signed out sucessfully.  The <code>TID=###</code>
+		part indicates you were logged in previously.  If you got <code>TID=null</code>, you
+		were never signed in. Once you sign out you	can not perform any further operations until
+		you sign in again.
+	</div>
+</div>
+
+<table class="page">
+<tr><td></td>
+<td class="next"><a href=2-logs.html>Next Page &gt;&gt;</a><br>Retrieving Log Files</td></tr>
+</table>
+
+</body>
+</html>

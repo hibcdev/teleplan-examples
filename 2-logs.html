@@ -1,0 +1,161 @@
+<html>
+<head>
+	<title>Teleplan Web Service - Introduction</title>
+	<style type="text/css">
+		input {text-align: center}
+		div.body {margin:10; font: 15px tahoma,sans-serif;}
+		div.text {margin-top:20; margin-bottom:0; width:800; text-align: justify}
+		table.form td {text-align: right; font: 13px system;}
+		table.page {width:800; font: 10px}
+		td.prev {text-align: left; font: small}
+		td.next {text-align:right; font: small}
+		div.html {margin:0; padding:0; width:800}
+		div.form {margin:20; width:800}
+		form {margin:0; padding:0;}
+		div.code {margin:0; padding:20; width:760; background:lightgray;}
+	</style>
+</head>
+
+<body>
+<table class="page">
+<tr><td class="prev"><a href="index.html">&lt;&lt; Previous Page</a><br>Introduction</td>
+<td class="next"><a href=3-submit.html>Next Page &gt;&gt;</a><br>Sending Files</td></tr>
+</table>
+
+<div class="body">
+	<h2>Teleplan Web Service</h2>
+	<h3>Retrieving Log Files (AgetLog, AgetLogList)</h3>
+
+	<div class="text">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<b>AsignOn</b><br>
+				Teleplan web service sessions are stateful and  must always start with a
+				sucessful <code>AsignOn</code> call.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOn">
+			<table class="form">
+				<tr><td>Username</td><td><input type="text" name="username"></td></tr>
+				<tr><td>Password</td><td><input type="password" name="password" ></td></tr>
+			</table>
+			<input type="submit" value="Click here to Start a Session"/><br>
+		</form>
+	</div>
+
+
+	<div class="text">
+	<b>AgetLog</b><br>
+		The <code>AgetLog</code> method retrieves either the current or a specified session log file.
+		This method requires three parameters: <code>logname, logtype</code> and <code>mode</code>.
+		The value of the <code>mode</code> parameter is always <code>DOWNLOAD</code>.  Here is the	example html code for <code>AgetLog</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction" <b>value="AgetLog"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="MODE" <b>value="DOWNLOAD"</b>&gt;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;Filename &lt;input type="text" <b>name="LOGNAME" value="CURRENT"</b>&gt;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;Log Type &lt;input type="text" <b>name="LOGTYPE" value="L"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to Retrieve this log file"/&gt;<br>
+		&lt;/form&gt;
+		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AgetLog">
+			<input type="hidden" name="MODE" value="DOWNLOAD">
+			<table class="form">
+				<tr><td>Filename</td><td><input type="text" name="LOGNAME" value="CURRENT"></td></tr>
+				<tr><td>Log Type</td><td><input type="text" name="LOGTYPE" value="L"></td></tr>
+			</table>
+			<input type="submit" value="Click here to Retrieve this log file"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Press the Submit button above.  You should see something like this in	your browser:
+	</div>
+	<div class="code">
+	<code>
+		18:38:07 W Log created on: Tuesday, September 27, 2011 at 18:38:07 PDT 18:38:07
+		W User: TTUM0000 logged in 18:38:07 W Environment ID: D1 18:38:07 W Teleplan Logon
+		Process starting 18:38:07 W Teleplan Version: 4.2.6 18:38:07 W Teleplan Logon Process
+		ending 18:38:09 000 W File: LogList.dat sent successfully 18:51:17 001 W File: LogList.dat
+		sent successfully 18:52:11 003 W File: 2011_9_27_G0MD1L.log sent successfully 18:55:22
+		004 W File: 2011_9_27_G0MD1L.log sent successfully #TID=005;Result=SUCCESS;
+		Filename=2011_9_27_G0MD1L.log;Msgs=;
+	</code>
+	</div>
+	<div class="text">
+		If you get <code>Result=SUCCESS</code> you have retrieved the log sucessfully. The log
+		files are returned as a plain-text list of records; one record per line.  Even
+		though the file	may display differently in the browser you can "display source" in your
+		browser to see exactly what has been returned. If you wish, you can also try to enter a
+		specific filename returned by <code>AgetLogList</code> (below) in the <code>filename</code> field.
+	</div>
+
+	<div class="text">
+	<b>AgetLogList</b><br>
+		The <code>AgetLogList</code>" method retrieves the current list of user logs and
+		requires no parameters other than <code>ExternalAction</code>.  Here is the	example
+		html code for <code>AgetLogList</code>:
+	</div>
+
+	<div class="code">
+	<code>
+		&lt;form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"&gt;<br>
+			&nbsp;&nbsp;&lt;input type="hidden" name="ExternalAction"<b> value="AgetLogList"</b>&gt;<br>
+			&nbsp;&nbsp;&lt;input type="submit" value="Click here to Retrieve list of logs"/&gt;<br>
+		&lt;/form&gt;
+		</code>
+	</div>
+
+	<div class="html">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+			<input type="hidden" name="ExternalAction" value="AgetLogList">
+			<input type="submit" value="Click here to Retrieve list of logs"/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		Press the Submit button above. You should see something like this in	your browser:
+	</div>
+	<div class="code">
+	<code>
+		011I2700D1.LOG 011I2701D1.LOG 011I2702D1.LOG 011I2703D1.LOG 011I2704D1.LOG 011I2705D1.LOG
+ 		011I2706D1.LOG 011I2707D1.LOG 011I2708D1.LOG 011I2709D1.LOG 011I270AD1.LOG 011I270BD1.LOG
+		011I270CD1.LOG 011I270DD1.LOG 011I270ED1.LOG 011I270FD1.LOG 011I270GD1.LOG 011I270HD1.LOG
+		011I270ID1.LOG 011I270JD1.LOG 011I270KD1.LOG 011I270LD1.LOG 011I270MD1.LOG
+		#TID=000;Result=SUCCESS;Filename=LogList.dat;Msgs=;
+	</code>
+	</div>
+	<div class="text">
+		If you get <code>Result=SUCCESS</code> you have retrieved the list sucessfully. The log
+		filenames are returned as a plain-text list of filenames; one filename per line.  Even
+		though the output may display differently in the browser you can "display source" in your
+		browser to see exactly what has been returned.
+	</div>
+
+
+	<div class="text">
+		<form method="POST" action="https://tlpt2.moh.hnet.bc.ca/TeleplanBroker"><br>
+		<b>AsignOff</b><br>
+			Always end a Teleplan Web Service session with the <code>AsignOff</code> method.<br>
+			<input type="hidden" name="ExternalAction" value="AsignOff">
+			<input type="submit" value="Click here to End your Session "/><br>
+		</form>
+	</div>
+
+	<div class="text">
+		As always, once you sign out you	can not perform any further operations until you sign
+		in again.
+	</div>
+</div>
+
+
+<table class="page">
+<tr><td class="prev"><a href="index.html">&lt;&lt; Previous Page</a><br>Introduction</td>
+<td class="next"><a href=3-submit.html>Next Page &gt;&gt;</a><br>Sending Files</td></tr>
+</table>
+</body>
+</html>
